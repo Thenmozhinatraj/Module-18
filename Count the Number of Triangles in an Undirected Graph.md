@@ -1,86 +1,64 @@
-# Ex. No: 17E - Adjacency List Representation of a Graph
+# Ex. No: 18E - Count the Number of Triangles in an Undirected Graph
 
 ## AIM:
-To write a Python program to demonstrate the **adjacency list representation** of the given graph.
-
----
+To write a Python program to **count the number of triangles** present in an **undirected graph** using matrix operations.
 
 ## ALGORITHM:
 
-**Step 1**: Start the program.
+**Step 1**: Initialize a matrix `aux2` to store the square of the adjacency matrix (i.e., `graph²`).  
+Also, initialize a matrix `aux3` to store the cube of the adjacency matrix (i.e., `graph³`).
 
-**Step 2**: Define a class `AdjNode` to create a node for each adjacent vertex:
-- Store the **vertex number**.
-- Store the **link to the next adjacent node**.
+**Step 2**: Multiply the adjacency matrix with itself to compute `aux2 = graph × graph`.
 
-**Step 3**: Define a class `Graph` to create the graph using adjacency lists:
-- Initialize the **number of vertices**.
-- Create a **list (array)** of size `V`, where each element is initially `None`.
+**Step 3**: Multiply `aux2` with the adjacency matrix again to compute `aux3 = aux2 × graph`.
 
-**Step 4**: Define a method `add_edge(src, dest)` to:
-- Add `dest` to the adjacency list of `src`.
-- Add `src` to the adjacency list of `dest` (for **undirected graphs**).
+**Step 4**: Compute the **trace** of the matrix `aux3` (i.e., the sum of diagonal elements of the matrix).
 
-**Step 5**: Define a method `print_graph()` to:
-- Traverse the adjacency list of each vertex.
-- Print the **vertex** and its **adjacent nodes**.
+**Step 5**: Divide the trace by **6** to get the number of triangles in the graph.  
+*(Each triangle is counted six times in the trace — twice per vertex and once per direction.)*
 
-**Step 6**: In the main program:
-- Create a `Graph` object with `V` vertices.
-- Call `add_edge()` for all desired edges.
-- Call `print_graph()` to display the adjacency list.
-
-**Step 7**: End the program.
-
----
+**Step 6**: Return the result.
 
 ## PYTHON PROGRAM:
 
 ```python
-class AdjNode:
-	def __init__(self, data):
-		self.vertex = data
-		self.next = None
-class Graph:
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = [None] * self.V
-    def add_edge(self, src, dest):
-        node = AdjNode(dest)
-        node.next = self.graph[src]
-        self.graph[src] = node
-        node = AdjNode(src)
-        node.next = self.graph[dest]
-        self.graph[dest] = node
-    def print_graph(self):
-        for i in range(self.V):
-            print("Adjacency list of vertex {}\n {}".format(i,i),end="")
-            temp=self.graph[i]
-            while temp:
-                print(" -> {}".format(temp.vertex),end="")
-                temp=temp.next
-            print("\n")
-if __name__ == "__main__":
-    V = 5
-    graph = Graph(V)
-    graph.add_edge(0, 1)
-    graph.add_edge(0, 4)
-    graph.add_edge(1, 2)
-    graph.add_edge(1, 3)
-    graph.add_edge(1, 4)
-    graph.add_edge(2, 3)
-    graph.add_edge(3, 4)
-    graph.print_graph()
-
-
+def multiply(A, B, C):
+	global V
+	for i in range(V):
+		for j in range(V):
+			C[i][j] = 0
+			for k in range(V):
+				C[i][j] += A[i][k] * B[k][j]
+def getTrace(graph):
+	global V
+	trace = 0
+	for i in range(V):
+		trace += graph[i][i]
+	return trace
+def triangleInGraph(graph):
+	global V
+	aux2 = [[None] * V for i in range(V)]
+	aux3 = [[None] * V for i in range(V)]
+	for i in range(V):
+		for j in range(V):
+			aux2[i][j] = aux3[i][j] = 0
+	multiply(graph, graph, aux2)
+	multiply(graph, aux2, aux3)
+	trace = getTrace(aux3)
+	return trace // 6
+V = int(input())
+graph = [[0, 1, 1, 0],
+		[1, 0, 1, 1],
+		[1, 1, 0, 1],
+		[0, 1, 1, 0]]
+print("Total number of Triangle in Graph :",
+					triangleInGraph(graph))
 ```
-
 ## OUTPUT:
 
-![Screenshot 2025-05-07 182832](https://github.com/user-attachments/assets/94061cbf-2621-4c12-b28d-ecbe5f1efcba)
+![Screenshot 2025-05-07 190839](https://github.com/user-attachments/assets/4d90a3d1-3d54-455f-809c-3c40f2bf44cc)
 
 
 ## RESULT:
-Hence, The program is successfully executed and the adjacency list representation of the given graph is verified.
 
-
+Hence, The program is successfully executed and the number of triangles present in the undirected graph is correctly determined using matrix operations.
