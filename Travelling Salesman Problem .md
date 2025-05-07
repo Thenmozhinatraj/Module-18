@@ -62,10 +62,9 @@ print("Minimum Cost:", cost)
 
 ## OUTPUT
 
-```
-![Screenshot 2025-05-08 000300](https://github.com/user-attachments/assets/79a3c875-8930-48a6-824f-22bbcfeb8273)
+![Screenshot 2025-05-08 000300](https://github.com/user-attachments/assets/7c506f04-6221-400f-817e-13a519e7a70d)
 
-```
+
 
 ## RESULT
 Thus, the Python program to solve the Travelling Salesman Problem using brute-force method was successfully executed and the shortest route was determined.
